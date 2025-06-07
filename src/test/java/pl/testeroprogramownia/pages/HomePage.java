@@ -26,6 +26,9 @@ public class HomePage {
     @FindBy(xpath = ("//div[@class='toggle-menu-wrapper show-slidein']"))
     private List<WebElement> dropDownMenuList;
 
+    @FindBy(xpath = ("//*[@id='menu-item-5']/a"))
+    private WebElement Forum;
+
 
     private WebDriver driver;
 
@@ -57,6 +60,9 @@ public void assertDropdownMenuItemsVisible(){
             Assert.assertTrue(item.isDisplayed(),"Element jest niewidoczny " + item.getText());
         }
 
+}
+public void forumIcon(){
+        Forum.click();
 }
 
 }
