@@ -6,8 +6,8 @@ import pl.testeroprogramownia.pages.HomePage;
 public class ForumTest extends BaseTest {
     @Test
     public void forumButtonTest(){
-        HomePage homePage = new HomePage(driver);
-        homePage.forumIcon();
+        new HomePage(driver)
+        .forumIcon();
 
 
 
