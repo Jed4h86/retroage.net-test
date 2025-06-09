@@ -50,6 +50,8 @@ public class HomePage {
     }
 
 
+
+
     public HomePage(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
@@ -59,6 +61,7 @@ public class HomePage {
         return customLogo;
 
     }
+
     @Step("Sprawdzam, czy logo jest widoczne")
     public boolean isLogoVisible() {
         return customLogo.isDisplayed();
@@ -72,13 +75,14 @@ public class HomePage {
     public void clickMenuBar() {
         menuBar.click();
     }
-        public void clickFacebook() {
-            facebook.click();
-        }
 
-        public void clickYoutube() {
-            youtube.click();
-        }
+    public void clickFacebook() {
+        facebook.click();
+    }
+
+    public void clickYoutube() {
+        youtube.click();
+    }
 
     public boolean isDropdownVisible() {
         return dropDownMenuList.stream().allMatch(WebElement::isDisplayed);
@@ -87,16 +91,20 @@ public class HomePage {
 
     public void forumIcon() {
         forum.click();
+
+
     }
 
     public void GryIcon() {
         gry.click();
 
     }
-        public boolean czyWszystkieElementyIstnieją () {
-            return getListaGier().size() == 4;
 
-        }
+    public boolean czyWszystkieElementyIstnieją() {
+        return getListaGier().size() == 4;
+
+
     }
+}
 
 
