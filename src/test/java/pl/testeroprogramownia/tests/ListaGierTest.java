@@ -14,6 +14,8 @@ public class ListaGierTest extends BaseTest {
                 homePage.czyWszystkieElementyIstnieją();
 
         Assert.assertTrue(homePage.czyWszystkieElementyIstnieją(),"Nie wszystkie elementy gier są widoczne");
+        homePage.recenzjeButton();
+        homePage.homebrewIcon();
 
 
     }

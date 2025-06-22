@@ -1,21 +1,24 @@
 package pl.testeroprogramownia.pages;
 
 import io.qameta.allure.Step;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+import javax.swing.*;
 import java.time.Duration;
 import java.util.List;
+
+import static java.util.Arrays.stream;
 
 public class HomePage {
 
     private WebDriver driver;
+    private Actions actions;
 
     @FindBy(xpath = ("//div[@class ='logo-wrapper ']//a[@class='custom-logo-link']"))
     private WebElement customLogo;
@@ -48,13 +51,30 @@ public class HomePage {
         ));
         return listaGier;
     }
+    @FindBy(xpath = ("//li[@id='menu-item-2178']"))
+    private WebElement recenzje;
 
+    @FindBy(xpath = ("//li[@id='menu-item-4330']"))
+    private WebElement homebrew;
+
+    @FindBy(xpath=("//li[@id='menu-item-5765']"))
+    private WebElement niewydane;
+
+    @FindBy(xpath = ("//li[@id='menu-item-17796']"))
+    private WebElement solucje;
+
+    @FindBy(xpath = ("//li[@id='menu-item-2190']"))
+    private WebElement konsole;
+
+    @FindBy(xpath = ("//li[@id='menu-item-2177 or menu-item-22855']"))
+    private List<WebElement> ListaKonsol;
 
 
 
     public HomePage(WebDriver driver) {
-        PageFactory.initElements(driver, this);
         this.driver = driver;
+        PageFactory.initElements(driver, this);
+        this.actions = new Actions(driver);
     }
 
     public WebElement getCustomLogo() {
@@ -97,14 +117,31 @@ public class HomePage {
 
     public void GryIcon() {
         gry.click();
+    }
+    public void recenzjeButton(){
+        actions.keyDown(Keys.CONTROL).click(recenzje).keyUp(Keys.CONTROL).build().perform();
+    }
+    public void homebrewIcon(){
+        WebElement link = homebrew.findElement(By.tagName("a"));
+        String href = link.getAttribute("href");
 
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.open(arguments[0], '_blank');", href);
     }
 
     public boolean czyWszystkieElementyIstnieją() {
         return getListaGier().size() == 4;
 
-
     }
+
+    public void konsoleIcon() {
+        konsole.click();
+    }
+
+    public boolean czyWszystkieKonsoleSa() {
+        return ListaKonsol.stream().allMatch(WebElement::isDisplayed);
+    }
+
 }
 
 
