@@ -10,13 +10,14 @@ public class ListaGierTest extends BaseTest {
     public void GryTest(){
 
         HomePage homePage = new HomePage(driver);
-        homePage.GryIcon();
+        homePage.gryIcon();
                 homePage.czyWszystkieElementyIstnieją();
 
         Assert.assertTrue(homePage.czyWszystkieElementyIstnieją(),"Nie wszystkie elementy gier są widoczne");
         homePage.recenzjeButton();
         homePage.homebrewIcon();
-
+        homePage.niewydaneIcon();
+        homePage.solucjeIcon();
 
     }
 
