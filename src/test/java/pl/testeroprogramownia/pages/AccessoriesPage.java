@@ -23,29 +23,27 @@ public class AccessoriesPage {
     @FindBy(xpath = "//li[@id='menu-item-22889']")
     private WebElement galerie;
 
+    private WebDriverWait wait;
     public AccessoriesPage(WebDriver driver) {
         this.driver = driver;
         this.actions = new Actions(driver);
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         PageFactory.initElements(driver, this);
     }
-public void akcesoriaTab(){
-    akcesoria.click();
-}
+
+    public void akcesoriaTab() {
+        wait.until(ExpectedConditions.elementToBeClickable(akcesoria)).click();
+    }
+
     public void kliknijOpisy() {
+        wait.until(ExpectedConditions.elementToBeClickable(opisy));
         actions.keyDown(Keys.CONTROL).click(opisy).keyUp(Keys.CONTROL).build().perform();
 
     }
-    public void kliknijGalerie(){
+
+    public void kliknijGalerie() {
+        wait.until(ExpectedConditions.elementToBeClickable(galerie));
         actions.keyDown(Keys.CONTROL).click(galerie).keyUp(Keys.CONTROL).build().perform();
     }
-//    public void switchToNextTab() {
-//        String currentHandle = driver.getWindowHandle();
-//        for (String handle : driver.getWindowHandles()) {
-//            if (!handle.equals(currentHandle)) {
-//                driver.switchTo().window(handle);
-//                break;
-//            }
-        }
-
-
+}
 

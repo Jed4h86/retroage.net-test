@@ -12,15 +12,8 @@ public class AkcesoriaTest extends BaseTest {
         AccessoriesPage accessoriesPage = homePage.otworzAkcesoria();
         accessoriesPage.akcesoriaTab();
         accessoriesPage.kliknijOpisy();
-        //accessoriesPage.switchToNextTab();
-        // dodaj tę metodę w klasie AccessoriesPage
-
-// tutaj możesz zrobić jakieś asercje lub interakcje na nowej zakładce
         accessoriesPage.kliknijGalerie();
 
-        // ewentualnie wróć do głównego okna, jeśli chcesz:
-        //driver.close(); // zamknij nowe okno
-        //driver.switchTo().window(homePage.getMainWindowHandle()); // metoda musi być dodana
     }
 }
 

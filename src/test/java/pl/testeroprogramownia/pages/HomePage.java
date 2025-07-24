@@ -63,6 +63,7 @@ public class HomePage {
     @FindBy(xpath = "//li[@id='menu-item-22889']")
     private WebElement opisy;
 
+
     @FindBy(xpath = "//li[@id='menu-item-2178' or @id='menu-item-4330' or @id='menu-item-5765' or @id='menu-item-17796']")
     private List<WebElement> listaGier;
 
@@ -72,11 +73,28 @@ public class HomePage {
     @FindBy(xpath = "//div[@class='toggle-menu-wrapper show-slidein']")
     private List<WebElement> dropDownMenuList;
 
+    @FindBy(xpath = "//li[@id='menu-item-2176']")
+    private WebElement artykuly;
+
+    @FindBy(xpath ="//li[@id='menu-item-2179']")
+    private WebElement wiadomosci;
+
+    @FindBy(xpath ="//li[@id='menu-item-24889']")
+    private WebElement o_stronie;
+
+    @FindBy(xpath ="//li[@id='menu-item-24888']")
+    private WebElement historia;
+
+    @FindBy(xpath ="//li[@id='menu-item-7934']")
+    private WebElement skarbonka;
+
     @FindBy(xpath = "//li[@id ='menu-item-2203']//a[contains(@href,'facebook')]")
     private WebElement facebook;
 
     @FindBy(xpath = "//*[@id='menu-item-2202']//a[contains(@href,'youtube')]")
     private WebElement youtube;
+
+
 
     // AKCJE
 
@@ -162,5 +180,22 @@ public class HomePage {
         }
 
         return new AccessoriesPage(driver);
+    }
+
+    public void articlesIcon(){
+        artykuly.click();
+    }
+    public void  wiadomosciIcon(){
+        wiadomosci.click();
+    }
+    public void oStronieIcon(){
+        o_stronie.click();
+    }
+
+    public void historiaIcon(){
+        historia.click();
+    }
+    public void skarbonkaIcon(){
+        skarbonka.click();
     }
 }
