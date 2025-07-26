@@ -13,5 +13,7 @@ public class KonsoleTest extends BaseTest {
         homePage.konsoleIcon();
         homePage.czyWszystkieKonsoleSa();
         Assert.assertTrue(homePage.czyWszystkieKonsoleSa());
+        homePage.opisyKonsolIcon();
+        homePage.galerieKonsol();
     }
 }

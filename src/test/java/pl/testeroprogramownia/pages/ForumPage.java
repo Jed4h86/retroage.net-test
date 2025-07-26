@@ -26,6 +26,18 @@ public class ForumPage {
     @FindBy(xpath = "//input[@id='username']")
     private WebElement username;
 
+    @FindBy(xpath = "//input[@id='password']")
+    private WebElement password;
+
+    @FindBy(xpath = "//input[@id='password_confirm']")
+    private WebElement passwordConfirm;
+
+    @FindBy(xpath = "//input[@id='email']")
+    private WebElement email;
+
+    @FindBy(xpath = "//input[@id='submit']")
+    private WebElement submit;
+
     public ForumPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -49,12 +61,23 @@ public class ForumPage {
 //    }
 
     public void fillUsername(String name) {
-       // wait.until(ExpectedConditions.visibilityOf(username)).sendKeys(name);
+        // wait.until(ExpectedConditions.visibilityOf(username)).sendKeys(name);
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].value = arguments[1]; arguments[0].dispatchEvent(new Event('input'));", username, name);
-
         //username.sendKeys();
     }
-    
+
+    public void fillPassword(String name) {
+
+        password.sendKeys();
     }
+
+    public void fillPasswordConfirmation(String name) {
+        passwordConfirm.sendKeys();
+    }
+    public void fillEmail(String name){
+        email.sendKeys();
+    }
+
+}
 

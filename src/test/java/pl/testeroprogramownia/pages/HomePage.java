@@ -61,11 +61,17 @@ public class HomePage {
     private WebElement akcesoria;
 
     @FindBy(xpath = "//li[@id='menu-item-22889']")
-    private WebElement opisy;
+    private WebElement opisyAkcesoriów;
 
 
     @FindBy(xpath = "//li[@id='menu-item-2178' or @id='menu-item-4330' or @id='menu-item-5765' or @id='menu-item-17796']")
     private List<WebElement> listaGier;
+
+    @FindBy(xpath = "//li[@id='menu-item-2177']")
+    private WebElement opisyKonsol;
+
+    @FindBy (xpath = "//li[@id='menu-item-22855']")
+    private WebElement galerieKonsol;
 
     @FindBy(xpath = "//li[@id='menu-item-2177 or menu-item-22855']")
     private List<WebElement> listaKonsol;
@@ -87,6 +93,12 @@ public class HomePage {
 
     @FindBy(xpath ="//li[@id='menu-item-7934']")
     private WebElement skarbonka;
+
+    @FindBy(xpath = "//a[@id='gum_search_icon']")
+    private WebElement search;
+
+    @FindBy(xpath = "//div[@class='seach-box displayBlock']//input[@placeholder='Wpisz i naciśnij Enter']")
+    private WebElement searchText;
 
     @FindBy(xpath = "//li[@id ='menu-item-2203']//a[contains(@href,'facebook')]")
     private WebElement facebook;
@@ -165,6 +177,13 @@ public class HomePage {
         return listaKonsol.stream().allMatch(WebElement::isDisplayed);
     }
 
+    public void opisyKonsolIcon() {
+        actions.keyDown(Keys.CONTROL).click(opisyKonsol).keyUp(Keys.CONTROL).build().perform();
+
+    }
+    public void galerieKonsol(){
+        actions.keyDown(Keys.CONTROL).click(galerieKonsol).keyUp(Keys.CONTROL).build().perform();
+    }
     // Otwórz stronę akcesoriów w nowym oknie i zwróć PageObject do pracy dalej
 
     public AccessoriesPage otworzAkcesoria() {
@@ -197,5 +216,11 @@ public class HomePage {
     }
     public void skarbonkaIcon(){
         skarbonka.click();
+    }
+    public void searchIcon(){
+    search.click();
+    searchText.sendKeys("Terminator");
+    searchText.sendKeys(Keys.ENTER);
+
     }
 }
