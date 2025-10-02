@@ -46,6 +46,7 @@ public void forumButtonTest() {
     forumPage.fillPassword("Lantis86!");
     forumPage.fillPasswordConfirmation("Lantis86!");
     forumPage.fillEmail("michal.pw@gmail.com");
+    forumPage.clickSubmit();
 
 
 

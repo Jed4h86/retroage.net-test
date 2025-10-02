@@ -22,6 +22,7 @@ public class BaseTest {
         driver.get("https://retroage.net/");
     }
 
+
 //    @AfterMethod
 //    public void tearDown() {
 //        driver.quit();

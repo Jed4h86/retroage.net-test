@@ -7,6 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pl.testeroprogramownia.utils.SeleniumHelper;
 
 import java.time.Duration;
 import java.util.List;
@@ -70,7 +71,7 @@ public class HomePage {
     @FindBy(xpath = "//li[@id='menu-item-2177']")
     private WebElement opisyKonsol;
 
-    @FindBy (xpath = "//li[@id='menu-item-22855']")
+    @FindBy(xpath = "//li[@id='menu-item-22855']")
     private WebElement galerieKonsol;
 
     @FindBy(xpath = "//li[@id='menu-item-2177 or menu-item-22855']")
@@ -82,16 +83,16 @@ public class HomePage {
     @FindBy(xpath = "//li[@id='menu-item-2176']")
     private WebElement artykuly;
 
-    @FindBy(xpath ="//li[@id='menu-item-2179']")
+    @FindBy(xpath = "//li[@id='menu-item-2179']")
     private WebElement wiadomosci;
 
-    @FindBy(xpath ="//li[@id='menu-item-24889']")
+    @FindBy(xpath = "//li[@id='menu-item-24889']")
     private WebElement o_stronie;
 
-    @FindBy(xpath ="//li[@id='menu-item-24888']")
+    @FindBy(xpath = "//li[@id='menu-item-24888']")
     private WebElement historia;
 
-    @FindBy(xpath ="//li[@id='menu-item-7934']")
+    @FindBy(xpath = "//li[@id='menu-item-7934']")
     private WebElement skarbonka;
 
     @FindBy(xpath = "//a[@id='gum_search_icon']")
@@ -105,7 +106,6 @@ public class HomePage {
 
     @FindBy(xpath = "//*[@id='menu-item-2202']//a[contains(@href,'youtube')]")
     private WebElement youtube;
-
 
 
     // AKCJE
@@ -163,9 +163,8 @@ public class HomePage {
         actions.keyDown(Keys.CONTROL).click(solucje).keyUp(Keys.CONTROL).build().perform();
     }
 
-    public boolean czyWszystkieElementyIstnieją() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOfAllElements(listaGier));
+    public boolean czyWszystkieElementyGierIstnieją() {
+        SeleniumHelper.waitForElementsToBeVisible(driver, listaGier);
         return listaGier.size() == 4;
     }
 
@@ -180,12 +179,30 @@ public class HomePage {
     public void opisyKonsolIcon() {
         actions.keyDown(Keys.CONTROL).click(opisyKonsol).keyUp(Keys.CONTROL).build().perform();
 
+
     }
-    public void galerieKonsol(){
+    public void galerieKonsol() {
         actions.keyDown(Keys.CONTROL).click(galerieKonsol).keyUp(Keys.CONTROL).build().perform();
     }
     // Otwórz stronę akcesoriów w nowym oknie i zwróć PageObject do pracy dalej
+    public ConsolePage otworzOpisyKonsol() {
+        // pobierz link z elementu
+        String href = opisyKonsol.findElement(By.tagName("a")).getAttribute("href");
 
+        // otwórz nową kartę i przełącz się na nią
+        driver.switchTo().newWindow(WindowType.TAB).get(href);
+
+        return new ConsolePage(driver);
+
+
+}
+    public ConsolePage otworzGalerieKonsol(){
+        String href = galerieKonsol.findElement(By.tagName("a")).getAttribute("href");
+        driver.switchTo().newWindow(WindowType.TAB).get(href);
+
+        return new ConsolePage(driver);
+
+    }
     public AccessoriesPage otworzAkcesoria() {
         String href = akcesoria.findElement(By.tagName("a")).getAttribute("href");
         driver.switchTo().newWindow(WindowType.WINDOW).get(href);
@@ -217,9 +234,14 @@ public class HomePage {
     public void skarbonkaIcon(){
         skarbonka.click();
     }
-    public void searchIcon(){
-    search.click();
-    searchText.sendKeys("Terminator");
+    public void searchIcon() {
+        search.click();
+    }
+
+    public void fillSearchText(String text) {
+        searchText.sendKeys(text);
+    }
+    public void searchValue(){
     searchText.sendKeys(Keys.ENTER);
 
     }

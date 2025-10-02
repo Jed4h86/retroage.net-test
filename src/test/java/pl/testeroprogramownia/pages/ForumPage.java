@@ -67,17 +67,22 @@ public class ForumPage {
         //username.sendKeys();
     }
 
-    public void fillPassword(String name) {
+    public void fillPassword(String pwd) {
 
-        password.sendKeys();
+        password.sendKeys(pwd);
     }
 
-    public void fillPasswordConfirmation(String name) {
-        passwordConfirm.sendKeys();
-    }
-    public void fillEmail(String name){
-        email.sendKeys();
+    public void fillPasswordConfirmation(String pwd) {
+        passwordConfirm.sendKeys(pwd);
     }
 
+    public void fillEmail(String mail) {
+        email.sendKeys(mail);
+    }
+
+    public void clickSubmit() {
+        submit.click();
+
+    }
 }
 

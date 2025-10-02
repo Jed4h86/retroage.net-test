@@ -11,9 +11,9 @@ public class ListaGierTest extends BaseTest {
 
         HomePage homePage = new HomePage(driver);
         homePage.gryIcon();
-                homePage.czyWszystkieElementyIstnieją();
+                homePage.czyWszystkieElementyGierIstnieją();
 
-        Assert.assertTrue(homePage.czyWszystkieElementyIstnieją(),"Nie wszystkie elementy gier są widoczne");
+        Assert.assertTrue(homePage.czyWszystkieElementyGierIstnieją(),"Nie wszystkie elementy gier są widoczne");
         homePage.recenzjeButton();
         homePage.homebrewIcon();
         homePage.niewydaneIcon();
