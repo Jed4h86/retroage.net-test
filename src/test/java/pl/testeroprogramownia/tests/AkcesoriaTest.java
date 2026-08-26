@@ -9,11 +9,13 @@ public class AkcesoriaTest extends BaseTest {
     @Test
     public void testAkcesoria() {
         HomePage homePage = new HomePage(driver);
-        AccessoriesPage accessoriesPage = homePage.otworzAkcesoria();
-        accessoriesPage.akcesoriaTab();
-        accessoriesPage.kliknijOpisy();
-        accessoriesPage.kliknijGalerie();
 
+        // Otwórz stronę akcesoriów w nowym oknie
+        AccessoriesPage accessoriesPage = homePage.otworzAkcesoria();
+
+        // Interakcje na stronie Accessories
+        accessoriesPage.openAkcesoriaTab();
+        accessoriesPage.openOpisy();
+        accessoriesPage.openGalerie();
     }
 }
-

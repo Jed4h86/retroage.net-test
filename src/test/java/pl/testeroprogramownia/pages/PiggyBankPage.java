@@ -17,7 +17,6 @@ public class PiggyBankPage {
     @FindBy(xpath = "//h6[@class='wp-block-heading'][2]")
     private WebElement donatorsStrong;
 
-
     public PiggyBankPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -53,5 +52,22 @@ public class PiggyBankPage {
     public boolean isLoginPresentStream(String login) {
         return getAllLogins().stream()
                 .anyMatch(l -> l.equalsIgnoreCase(login));
+    }
+
+    /**
+     * Zwraca liczbę wszystkich donatorów
+     */
+    public int getDonatorsCount() {
+        return getAllLogins().size();
+    }
+
+    /**
+     * Sprawdza obecność wielu loginów naraz
+     */
+    public boolean areAllLoginsPresent(List<String> logins) {
+        List<String> allLogins = getAllLogins();
+        return logins.stream()
+                .allMatch(login -> allLogins.stream()
+                        .anyMatch(l -> l.equalsIgnoreCase(login)));
     }
 }

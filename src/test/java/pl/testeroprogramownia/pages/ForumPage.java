@@ -1,12 +1,10 @@
 package pl.testeroprogramownia.pages;
 
-
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 
 import java.time.Duration;
 
@@ -16,27 +14,28 @@ public class ForumPage {
     private WebDriverWait wait;
 
     @FindBy(xpath = "//span[contains(text(),'Zarejestruj się')]")
-    private WebElement register;
+    private WebElement registerButton;
 
     @FindBy(xpath = "//*[@id='agreement']/div[1]/div/div/h2")
     private WebElement registrationConditions;
 
     @FindBy(xpath = "//*[@id='agreed']")
-    private WebElement agreeButton;
+    private WebElement agreeCheckbox;
+
     @FindBy(xpath = "//input[@id='username']")
-    private WebElement username;
+    private WebElement usernameInput;
 
     @FindBy(xpath = "//input[@id='password']")
-    private WebElement password;
+    private WebElement passwordInput;
 
     @FindBy(xpath = "//input[@id='password_confirm']")
-    private WebElement passwordConfirm;
+    private WebElement passwordConfirmInput;
 
     @FindBy(xpath = "//input[@id='email']")
-    private WebElement email;
+    private WebElement emailInput;
 
     @FindBy(xpath = "//input[@id='submit']")
-    private WebElement submit;
+    private WebElement submitButton;
 
     public ForumPage(WebDriver driver) {
         this.driver = driver;
@@ -45,44 +44,44 @@ public class ForumPage {
     }
 
     public void clickRegister() {
-        register.click();
+        wait.until(ExpectedConditions.elementToBeClickable(registerButton)).click();
     }
 
     public void acceptAgreement() {
-        //wait.until(ExpectedConditions.elementToBeClickable(agreeButton)).click();
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].click();", agreeButton);
-
-
+        wait.until(ExpectedConditions.elementToBeClickable(agreeCheckbox));
+        // Jeśli zwykły click nie działa, używamy JS
+        try {
+            agreeCheckbox.click();
+        } catch (ElementClickInterceptedException e) {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", agreeCheckbox);
+        }
     }
 
-//    public String getRegistrationConditionsText() {
-//        return wait.until(ExpectedConditions.visibilityOf(registrationConditions)).getText();
-//    }
+    public String getRegistrationConditionsText() {
+        return wait.until(ExpectedConditions.visibilityOf(registrationConditions)).getText();
+    }
 
     public void fillUsername(String name) {
-        // wait.until(ExpectedConditions.visibilityOf(username)).sendKeys(name);
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].value = arguments[1]; arguments[0].dispatchEvent(new Event('input'));", username, name);
-        //username.sendKeys();
+        wait.until(ExpectedConditions.visibilityOf(usernameInput)).clear();
+        usernameInput.sendKeys(name);
     }
 
     public void fillPassword(String pwd) {
-
-        password.sendKeys(pwd);
+        wait.until(ExpectedConditions.visibilityOf(passwordInput)).clear();
+        passwordInput.sendKeys(pwd);
     }
 
     public void fillPasswordConfirmation(String pwd) {
-        passwordConfirm.sendKeys(pwd);
+        wait.until(ExpectedConditions.visibilityOf(passwordConfirmInput)).clear();
+        passwordConfirmInput.sendKeys(pwd);
     }
 
     public void fillEmail(String mail) {
-        email.sendKeys(mail);
+        wait.until(ExpectedConditions.visibilityOf(emailInput)).clear();
+        emailInput.sendKeys(mail);
     }
 
     public void clickSubmit() {
-        submit.click();
-
+        wait.until(ExpectedConditions.elementToBeClickable(submitButton)).click();
     }
 }
-

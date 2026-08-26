@@ -22,10 +22,7 @@ public class ArticlesPage {
     @FindBy(xpath = "//div[@id='pt-cv-view-4ca2d12ai2']")
     private List<WebElement> articlesList;
 
-    @FindBy(xpath = "//a[contains(text(),'Resident Evil Sega Mega Drive demake – wywiad')]")
-    private List<WebElement> residentEvil;
-
-    @FindBy(xpath = "(//h1[@class='entry-title'])")
+    @FindBy(xpath = "//h1[@class='entry-title']")
     private WebElement title;
 
     @FindBy(xpath = "//a[@title='Go to next page']")
@@ -37,89 +34,88 @@ public class ArticlesPage {
     @FindBy(xpath = "//select[@name='_orderby']")
     private WebElement sortingList;
 
-    @FindBy(xpath = "//option[@value = 'title,desc']")
-    private WebElement sortingDesc;
-
-    @FindBy(xpath = "//option[@value = 'date,desc']")
-    private WebElement dateSorting;
-
     public ArticlesPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(5));
     }
 
-    // ✅ Sprawdzenie czy lista wszystkich artykułów jest widoczna
+    // Sprawdzenie czy lista artykułów jest widoczna
     public boolean allArticlesListCheck() {
         return !articlesList.isEmpty() && articlesList.stream().allMatch(WebElement::isDisplayed);
     }
 
-    // ✅ Uniwersalne kliknięcie w kategorię po nazwie
+    // Kliknięcie w kategorię po nazwie
     public void clickCategoryByName(String categoryName) {
         WebElement category = driver.findElement(
                 By.xpath("//div[normalize-space(text())='" + categoryName + "']")
         );
         category.click();
-
-
     }
 
-    // ✅ Pobranie liczby artykułów w aktualnie wybranej kategorii
+    // Pobranie liczby artykułów w aktualnie wybranej kategorii
     public int getArticlesCount() {
         return articlesList.size();
     }
 
-    // ✅ Szukanie artykułu "Resident Evil..." (przewijanie po stronach)
-    public void reSearch() {
+    // Szukanie artykułu po tytule (przewijanie po stronach)
+    public void searchArticleByTitle(String articleTitle) {
         boolean found = false;
 
         while (!found) {
-            if (!residentEvil.isEmpty()) {
-                System.out.println("Element found!");
-                residentEvil.get(0).click();
+            List<WebElement> foundElements = driver.findElements(
+                    By.xpath("//a[contains(text(),'" + articleTitle + "')]")
+            );
+
+            if (!foundElements.isEmpty()) {
+                foundElements.get(0).click();
                 found = true;
             } else {
                 if (nextPage.isEmpty()) {
-                    System.out.println("No element found");
+                    System.out.println("Nie znaleziono artykułu: " + articleTitle);
                     break;
                 } else {
                     nextPage.get(0).click();
                 }
             }
         }
-
     }
 
-    // ✅ Sortowanie po tytule (malejąco)
-    public void sortingDesc() {
+    // Sortowanie po tytule malejąco
+    public void sortByTitleDesc() {
         sortingList.click();
+        WebElement sortingDesc = driver.findElement(By.xpath("//option[@value='title,desc']"));
         sortingDesc.click();
     }
 
-    // ✅ Sortowanie po dacie (najnowsze)
-    public void sortingDateAsc() {
+    // Sortowanie po dacie (najnowsze)
+    public void sortByDateAsc() {
         Select dropdown = new Select(sortingList);
         dropdown.selectByVisibleText("Data (Najnowsze)");
     }
 
+    // Pobranie listy tytułów artykułów
     public List<String> getArticleTitles() {
         return articlesList.stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
     }
 
-
-    // ✅ Sprawdzenie czy kategorie są widoczne
-    public boolean categories() {
+    // Sprawdzenie, czy kategorie są widoczne
+    public boolean categoriesAreVisible() {
         return !categories.isEmpty() && categories.stream().allMatch(WebElement::isDisplayed);
     }
 
-    // ✅ Pobranie tekstu kategorii (np. do asercji)
-    public String categoryText() {
-        WebElement category = driver.findElement(By.xpath("//div[normalize-space(text())='Retrospekcje']"));
+    // Pobranie tekstu kategorii po nazwie
+    public String getCategoryText(String categoryName) {
+        WebElement category = driver.findElement(
+                By.xpath("//div[normalize-space(text())='" + categoryName + "']")
+        );
         return category.getText();
     }
-    public String getTitle(){
+
+    // Pobranie tytułu aktualnie otwartego artykułu
+    public String getTitle() {
         return title.getText();
     }
 }

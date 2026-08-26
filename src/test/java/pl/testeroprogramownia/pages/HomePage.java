@@ -5,11 +5,9 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import pl.testeroprogramownia.utils.SeleniumHelper;
 
-import java.time.Duration;
+
 import java.util.List;
 
 public class HomePage {
@@ -29,7 +27,7 @@ public class HomePage {
         return mainWindowHandle;
     }
 
-    // ELEMENTY
+     //ELEMENTY
 
     @FindBy(xpath = "//div[@class='logo-wrapper ']//a[@class='custom-logo-link']")
     private WebElement customLogo;

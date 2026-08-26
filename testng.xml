@@ -1,12 +1,30 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
-<suite name="Suite">
+<suite name="RetroAge Test Suite">
+
     <listeners>
         <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
     </listeners>
 
-    <test name="Testy">
+    <test name="Testy Konsol">
+        <groups>
+            <run>
+                <include name="console"/>
+            </run>
+        </groups>
         <packages>
             <package name="pl.testeroprogramownia.tests"/>
         </packages>
     </test>
+
+    <test name="Testy Galerii">
+        <groups>
+            <run>
+                <include name="gallery"/>
+            </run>
+        </groups>
+        <packages>
+            <package name="pl.testeroprogramownia.tests"/>
+        </packages>
+    </test>
+
 </suite>
