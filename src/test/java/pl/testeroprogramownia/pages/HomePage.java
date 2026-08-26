@@ -7,7 +7,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import pl.testeroprogramownia.utils.SeleniumHelper;
 
-
 import java.util.List;
 
 public class HomePage {
@@ -20,14 +19,14 @@ public class HomePage {
         this.driver = driver;
         PageFactory.initElements(driver, this);
         this.actions = new Actions(driver);
-        this.mainWindowHandle = driver.getWindowHandle(); // zapisujemy uchwyt głównego okna
+        this.mainWindowHandle = driver.getWindowHandle();
     }
 
     public String getMainWindowHandle() {
         return mainWindowHandle;
     }
 
-     //ELEMENTY
+    // ELEMENTY
 
     @FindBy(xpath = "//div[@class='logo-wrapper ']//a[@class='custom-logo-link']")
     private WebElement customLogo;
@@ -38,30 +37,29 @@ public class HomePage {
     @FindBy(xpath = "//*[@id='menu-item-5']/a")
     private WebElement forum;
 
-    @FindBy(xpath = "//li[@id='menu-item-2174']")
+    @FindBy(xpath = "//li[@id='menu-item-2174']/a")
     private WebElement gry;
 
-    @FindBy(xpath = "//li[@id='menu-item-2178']")
+    @FindBy(xpath = "//li[@id='menu-item-2178']/a")
     private WebElement recenzje;
 
     @FindBy(xpath = "//li[@id='menu-item-4330']")
     private WebElement homebrew;
 
-    @FindBy(xpath = "//li[@id='menu-item-5765']")
+    @FindBy(xpath = "//li[@id='menu-item-5765']/a")
     private WebElement niewydane;
 
-    @FindBy(xpath = "//li[@id='menu-item-17796']")
+    @FindBy(xpath = "//li[@id='menu-item-17796']/a")
     private WebElement solucje;
 
-    @FindBy(xpath = "//li[@id='menu-item-2190']")
+    @FindBy(xpath = "//li[@id='menu-item-2190']/a")
     private WebElement konsole;
 
-    @FindBy(xpath = "//li[@id='menu-item-22796']")
+    @FindBy(xpath = "//li[@id='menu-item-22796']/a")
     private WebElement akcesoria;
 
-    @FindBy(xpath = "//li[@id='menu-item-22889']")
+    @FindBy(xpath = "//li[@id='menu-item-22889']/a")
     private WebElement opisyAkcesoriów;
-
 
     @FindBy(xpath = "//li[@id='menu-item-2178' or @id='menu-item-4330' or @id='menu-item-5765' or @id='menu-item-17796']")
     private List<WebElement> listaGier;
@@ -72,25 +70,25 @@ public class HomePage {
     @FindBy(xpath = "//li[@id='menu-item-22855']")
     private WebElement galerieKonsol;
 
-    @FindBy(xpath = "//li[@id='menu-item-2177 or menu-item-22855']")
+    @FindBy(xpath = "//li[@id='menu-item-2177' or @id='menu-item-22855']")
     private List<WebElement> listaKonsol;
 
     @FindBy(xpath = "//div[@class='toggle-menu-wrapper show-slidein']")
     private List<WebElement> dropDownMenuList;
 
-    @FindBy(xpath = "//li[@id='menu-item-2176']")
+    @FindBy(xpath = "//li[@id='menu-item-2176']/a")
     private WebElement artykuly;
 
-    @FindBy(xpath = "//li[@id='menu-item-2179']")
+    @FindBy(xpath = "//li[@id='menu-item-2179']/a")
     private WebElement wiadomosci;
 
-    @FindBy(xpath = "//li[@id='menu-item-24889']")
+    @FindBy(xpath = "//li[@id='menu-item-24889']/a")
     private WebElement o_stronie;
 
-    @FindBy(xpath = "//li[@id='menu-item-24888']")
+    @FindBy(xpath = "//li[@id='menu-item-24888']/a")
     private WebElement historia;
 
-    @FindBy(xpath = "//li[@id='menu-item-7934']")
+    @FindBy(xpath = "//li[@id='menu-item-7934']/a")
     private WebElement skarbonka;
 
     @FindBy(xpath = "//a[@id='gum_search_icon']")
@@ -99,12 +97,11 @@ public class HomePage {
     @FindBy(xpath = "//div[@class='seach-box displayBlock']//input[@placeholder='Wpisz i naciśnij Enter']")
     private WebElement searchText;
 
-    @FindBy(xpath = "//li[@id ='menu-item-2203']//a[contains(@href,'facebook')]")
+    @FindBy(xpath = "//li[@id='menu-item-2203']//a[contains(@href,'facebook')]")
     private WebElement facebook;
 
     @FindBy(xpath = "//*[@id='menu-item-2202']//a[contains(@href,'youtube')]")
     private WebElement youtube;
-
 
     // AKCJE
 
@@ -166,8 +163,14 @@ public class HomePage {
         return listaGier.size() == 4;
     }
 
+    @Step("Klikam w ikonę Konsole")
     public void konsoleIcon() {
-        konsole.click();
+        try {
+            konsole.click();
+        } catch (Exception e) {
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("arguments[0].click();", konsole);
+        }
     }
 
     public boolean czyWszystkieKonsoleSa() {
@@ -176,36 +179,28 @@ public class HomePage {
 
     public void opisyKonsolIcon() {
         actions.keyDown(Keys.CONTROL).click(opisyKonsol).keyUp(Keys.CONTROL).build().perform();
-
-
     }
+
     public void galerieKonsol() {
         actions.keyDown(Keys.CONTROL).click(galerieKonsol).keyUp(Keys.CONTROL).build().perform();
     }
-    // Otwórz stronę akcesoriów w nowym oknie i zwróć PageObject do pracy dalej
+
     public ConsolePage otworzOpisyKonsol() {
-        // pobierz link z elementu
         String href = opisyKonsol.findElement(By.tagName("a")).getAttribute("href");
-
-        // otwórz nową kartę i przełącz się na nią
         driver.switchTo().newWindow(WindowType.TAB).get(href);
-
         return new ConsolePage(driver);
+    }
 
-
-}
-    public ConsolePage otworzGalerieKonsol(){
+    public ConsolePage otworzGalerieKonsol() {
         String href = galerieKonsol.findElement(By.tagName("a")).getAttribute("href");
         driver.switchTo().newWindow(WindowType.TAB).get(href);
-
         return new ConsolePage(driver);
-
     }
+
     public AccessoriesPage otworzAkcesoria() {
         String href = akcesoria.findElement(By.tagName("a")).getAttribute("href");
         driver.switchTo().newWindow(WindowType.WINDOW).get(href);
 
-        // przełącz się na nowe okno
         for (String handle : driver.getWindowHandles()) {
             if (!handle.equals(mainWindowHandle)) {
                 driver.switchTo().window(handle);
@@ -216,22 +211,26 @@ public class HomePage {
         return new AccessoriesPage(driver);
     }
 
-    public void articlesIcon(){
+    public void articlesIcon() {
         artykuly.click();
     }
-    public void  wiadomosciIcon(){
+
+    public void wiadomosciIcon() {
         wiadomosci.click();
     }
-    public void oStronieIcon(){
+
+    public void oStronieIcon() {
         o_stronie.click();
     }
 
-    public void historiaIcon(){
+    public void historiaIcon() {
         historia.click();
     }
-    public void skarbonkaIcon(){
+
+    public void skarbonkaIcon() {
         skarbonka.click();
     }
+
     public void searchIcon() {
         search.click();
     }
@@ -239,8 +238,8 @@ public class HomePage {
     public void fillSearchText(String text) {
         searchText.sendKeys(text);
     }
-    public void searchValue(){
-    searchText.sendKeys(Keys.ENTER);
 
+    public void searchValue() {
+        searchText.sendKeys(Keys.ENTER);
     }
 }

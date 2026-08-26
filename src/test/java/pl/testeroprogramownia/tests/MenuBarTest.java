@@ -1,45 +1,77 @@
 package pl.testeroprogramownia.tests;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
+import io.qameta.allure.Step;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import pl.testeroprogramownia.pages.HomePage;
 
 import java.util.Set;
 
+@Epic("Retroage - Serwis Retro")
+@Feature("Pasek Nawigacyjny i Social Media")
 public class MenuBarTest extends BaseTest {
-
-    private HomePage homePage;
 
     @BeforeMethod
     public void setUpTest() {
-        homePage = new HomePage(driver);
-        homePage.clickMenuBar(); // zawsze otwieramy menu przed testem
+        openMenuBar();
     }
 
-    @Test
+    @Step("Otwarcie rozwijanego paska nawigacyjnego (Menu Bar)")
+    private void openMenuBar() {
+        homePage.clickMenuBar();
+    }
+
+    @Test(groups = {"navigation"})
+    @Story("Menu Rozwijane")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Weryfikacja, czy rozwijane menu nawigacyjne wyświetla się poprawnie po kliknięciu ikonki.")
     public void menuDropdownTest() {
-        Assert.assertTrue(homePage.isDropdownVisible(),
-                "Menu rozwijane nie jest widoczne!");
+        Assert.assertTrue(
+                homePage.isDropdownVisible(),
+                "❌ Menu rozwijane nie jest widoczne!"
+        );
     }
 
-    @Test
+    @Test(groups = {"social-media"})
+    @Story("Odnośniki Social Media")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Sprawdzenie, czy kliknięcie ikony Facebooka otwiera nową kartę/okno w przeglądarce.")
     public void facebookLinkTest() {
-        String mainWindow = driver.getWindowHandle();
-        homePage.clickFacebook();
-
-        // Sprawdzenie, czy otworzyło się nowe okno
-        Set<String> handles = driver.getWindowHandles();
-        Assert.assertTrue(handles.size() > 1, "Nie otworzyło się nowe okno po kliknięciu Facebooka");
+        clickFacebookStep();
+        verifyNewTabOpened("Facebook");
     }
 
-    @Test
-    public void youtubeLinkTest() {
-        String mainWindow = driver.getWindowHandle();
-        homePage.clickYoutube();
+    @Step("Kliknięcie w odnośnik do profilu Facebook")
+    private void clickFacebookStep() {
+        homePage.clickFacebook();
+    }
 
-        // Sprawdzenie, czy otworzyło się nowe okno
+    @Test(groups = {"social-media"})
+    @Story("Odnośniki Social Media")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Sprawdzenie, czy kliknięcie ikony YouTube otwiera nową kartę/okno w przeglądarce.")
+    public void youtubeLinkTest() {
+        clickYoutubeStep();
+        verifyNewTabOpened("YouTube");
+    }
+
+    @Step("Kliknięcie w odnośnik do kanału YouTube")
+    private void clickYoutubeStep() {
+        homePage.clickYoutube();
+    }
+
+    @Step("Weryfikacja, czy po kliknięciu linku do {platformName} otworzyła się nowa karta/okno")
+    private void verifyNewTabOpened(String platformName) {
         Set<String> handles = driver.getWindowHandles();
-        Assert.assertTrue(handles.size() > 1, "Nie otworzyło się nowe okno po kliknięciu YouTube");
+        Assert.assertTrue(
+                handles.size() > 1,
+                "❌ Nie otworzyło się nowe okno po kliknięciu " + platformName + "!"
+        );
     }
 }
