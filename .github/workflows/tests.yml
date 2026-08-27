@@ -58,3 +58,8 @@ jobs:
       - name: Publikacja na GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Dodaj link do raportu w podsumowaniu
+        run: |
+          echo "### 📊 Allure Report" >> $GITHUB_STEP_SUMMARY
+          echo "Kliknij tutaj, aby otworzyć raport: ${{ steps.deployment.outputs.page_url }}" >> $GITHUB_STEP_SUMMARY
