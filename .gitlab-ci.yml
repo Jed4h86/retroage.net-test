@@ -16,7 +16,6 @@ run_tests:
   stage: test
   image: markhobson/maven-chrome:jdk-17
   script:
-    # Ignorujemy niepowodzenia samych testów, aby job przeszedł z kodem 0 i przekazał wyniki do Allure
     - mvn test -DsuiteXmlFile=testng.xml -Dmaven.test.failure.ignore=true
   artifacts:
     when: always
@@ -29,7 +28,7 @@ run_tests:
 # -----------------------------------------------------------------------------
 pages:
   stage: deploy
-  image: openjdk:17-slim
+  image: eclipse-temurin:17-jdk
   script:
     # Pobranie i instalacja narzędzia Allure CLI
     - apt-get update && apt-get install -y wget unzip
