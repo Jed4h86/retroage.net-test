@@ -1,26 +1,52 @@
-image: maven:3.9.6-eclipse-temurin-17
+stages:
+  - test
+  - deploy
 
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
 
 cache:
   paths:
-    - .m2/repository/
+    - .m2/repository
 
-stages:
-  - test
-
-test_job:
+# -----------------------------------------------------------------------------
+# 1. ETAP TESTOWY
+# -----------------------------------------------------------------------------
+run_tests:
   stage: test
-  before_script:
-    - apt-get update && apt-get install -y wget gnupg
-    - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-    - sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
-    - apt-get update && apt-get install -y google-chrome-stable
+  image: markhobson/maven-chrome:jdk-17
   script:
-    - mvn test -DsuiteXmlFile=testng.xml
+    # Ignorujemy niepowodzenia samych testów, aby job przeszedł z kodem 0 i przekazał wyniki do Allure
+    - mvn test -DsuiteXmlFile=testng.xml -Dmaven.test.failure.ignore=true
   artifacts:
     when: always
     paths:
       - allure-results/
     expire_in: 1 week
+
+# -----------------------------------------------------------------------------
+# 2. ETAP GENEROWANIA RAPORTU ALLURE (GitLab Pages)
+# -----------------------------------------------------------------------------
+pages:
+  stage: deploy
+  image: openjdk:17-slim
+  script:
+    # Pobranie i instalacja narzędzia Allure CLI
+    - apt-get update && apt-get install -y wget unzip
+    - wget https://github.com/allure-framework/allure2/releases/download/2.29.0/allure-2.29.0.zip
+    - unzip allure-2.29.0.zip -d /opt/
+    - ln -s /opt/allure-2.29.0/bin/allure /usr/bin/allure
+
+    # Generowanie raportu HTML ze skompletowanych wyników
+    - allure generate allure-results -o public --clean
+
+    # Wyświetlenie linku do raportu w logach
+    - echo "=================================================================="
+    - echo "📊 RAPORT ALLURE JEST DOSTĘPNY POD ADRESEM:"
+    - echo "https://${CI_PROJECT_NAMESPACE}.gitlab.io/${CI_PROJECT_NAME}/"
+    - echo "=================================================================="
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
