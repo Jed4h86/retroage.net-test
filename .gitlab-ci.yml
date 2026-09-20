@@ -1,0 +1,26 @@
+image: maven:3.9.6-eclipse-temurin-17
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+
+cache:
+  paths:
+    - .m2/repository/
+
+stages:
+  - test
+
+test_job:
+  stage: test
+  before_script:
+    - apt-get update && apt-get install -y wget gnupg
+    - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+    - sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+    - apt-get update && apt-get install -y google-chrome-stable
+  script:
+    - mvn test -DsuiteXmlFile=testng.xml
+  artifacts:
+    when: always
+    paths:
+      - allure-results/
+    expire_in: 1 week
