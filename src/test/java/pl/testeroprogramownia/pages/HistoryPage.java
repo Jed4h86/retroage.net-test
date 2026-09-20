@@ -1,5 +1,6 @@
 package pl.testeroprogramownia.pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -20,7 +21,6 @@ public class HistoryPage {
     public HistoryPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
-
     }
 
     @FindBy(xpath = "//div[contains(@class,'ngg-gallery-thumbnail-box')]")
@@ -29,7 +29,7 @@ public class HistoryPage {
     @FindBy(xpath = "//img[@title='nw_1']")
     private WebElement firstPicture;
 
-
+    @Step("Sprawdzenie widoczności wszystkich obrazków na stronie historii")
     public boolean picturesList() {
         // ⏳ Czekamy aż lista nie będzie pusta i elementy będą widoczne
         waitForElementsToBeVisible(driver, pictures);
@@ -45,12 +45,13 @@ public class HistoryPage {
         return allVisible;
     }
 
+    @Step("Przewinięcie do pierwszego obrazka i kliknięcie go")
     public void checkPictures() {
         SeleniumHelper.scrollToElement(driver, firstPicture);
         firstPicture.click();
     }
 
-    //klikaj strzalke az przeklikasz do ostaniego elementu listy
+    @Step("Przeklikanie całej galerii przyciskiem 'NEXT'")
     public void clickThroughAllPictures() {
         boolean hasNext = true;
 
@@ -69,9 +70,9 @@ public class HistoryPage {
             }
         }
     }
+
+    @Step("Sprawdzenie czy przycisk 'NEXT' w galerii jest obecny")
     public boolean isNextButtonPresent() {
         return !driver.findElements(By.xpath("//a[@id='nextpic']")).isEmpty();
     }
 }
-
-

@@ -1,5 +1,6 @@
 package pl.testeroprogramownia.pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -40,12 +41,12 @@ public class ArticlesPage {
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(5));
     }
 
-    // Sprawdzenie czy lista artykułów jest widoczna
+    @Step("Sprawdzenie, czy wszystkie artykuły na liście są widoczne")
     public boolean allArticlesListCheck() {
         return !articlesList.isEmpty() && articlesList.stream().allMatch(WebElement::isDisplayed);
     }
 
-    // Kliknięcie w kategorię po nazwie
+    @Step("Kliknięcie w kategorię: '{categoryName}'")
     public void clickCategoryByName(String categoryName) {
         WebElement category = driver.findElement(
                 By.xpath("//div[normalize-space(text())='" + categoryName + "']")
@@ -53,12 +54,12 @@ public class ArticlesPage {
         category.click();
     }
 
-    // Pobranie liczby artykułów w aktualnie wybranej kategorii
+    @Step("Pobranie liczby widocznych artykułów")
     public int getArticlesCount() {
         return articlesList.size();
     }
 
-    // Szukanie artykułu po tytule (przewijanie po stronach)
+    @Step("Wyszukanie i otwarcie artykułu o tytule: '{articleTitle}' (paginacja)")
     public void searchArticleByTitle(String articleTitle) {
         boolean found = false;
 
@@ -81,32 +82,32 @@ public class ArticlesPage {
         }
     }
 
-    // Sortowanie po tytule malejąco
+    @Step("Sortowanie artykułów po tytule malejąco (Z-A)")
     public void sortByTitleDesc() {
         sortingList.click();
         WebElement sortingDesc = driver.findElement(By.xpath("//option[@value='title,desc']"));
         sortingDesc.click();
     }
 
-    // Sortowanie po dacie (najnowsze)
+    @Step("Sortowanie artykułów po dacie (Najnowsze)")
     public void sortByDateAsc() {
         Select dropdown = new Select(sortingList);
         dropdown.selectByVisibleText("Data (Najnowsze)");
     }
 
-    // Pobranie listy tytułów artykułów
+    @Step("Pobranie listy tytułów wyświetlanych artykułów")
     public List<String> getArticleTitles() {
         return articlesList.stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
     }
 
-    // Sprawdzenie, czy kategorie są widoczne
+    @Step("Sprawdzenie widoczności sekcji kategorii")
     public boolean categoriesAreVisible() {
         return !categories.isEmpty() && categories.stream().allMatch(WebElement::isDisplayed);
     }
 
-    // Pobranie tekstu kategorii po nazwie
+    @Step("Pobranie nazwy kategorii: '{categoryName}'")
     public String getCategoryText(String categoryName) {
         WebElement category = driver.findElement(
                 By.xpath("//div[normalize-space(text())='" + categoryName + "']")
@@ -114,7 +115,7 @@ public class ArticlesPage {
         return category.getText();
     }
 
-    // Pobranie tytułu aktualnie otwartego artykułu
+    @Step("Pobranie nagłówka H1 otwartego artykułu")
     public String getTitle() {
         return title.getText();
     }

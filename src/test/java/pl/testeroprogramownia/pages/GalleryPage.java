@@ -1,5 +1,6 @@
 package pl.testeroprogramownia.pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -45,34 +46,42 @@ public class GalleryPage {
 
     // 🔹 Metody
 
+    @Step("Sprawdzenie widoczności elementów na głównej liście galerii")
     public boolean allGalleryListCheck() {
         return !galleryConsoles.isEmpty() && galleryConsoles.stream().allMatch(WebElement::isDisplayed);
     }
 
+    @Step("Pobranie nagłówka sekcji galerii")
     public String headerName() {
         return galleryHeader.getText().trim();
     }
 
+    @Step("Kliknięcie w kategorię galerii 'Microsoft'")
     public void clickMicrosoft() {
         microsoft.click();
     }
 
+    @Step("Sprawdzenie widoczności elementów w galerii Microsoft")
     public boolean allMicrosoftGalleryListCheck() {
         return !microsoftGallery.isEmpty() && microsoftGallery.stream().allMatch(WebElement::isDisplayed);
     }
 
+    @Step("Kliknięcie w sekcję galerii 'Xbox'")
     public void clickXbox() {
         xbox.click();
     }
 
+    @Step("Pobranie liczby elementów w galerii Xbox")
     public int getXboxGalleryCount() {
         return microsoftList.size();
     }
 
+    @Step("Kliknięcie w sekcję galerii 'Nintendo'")
     public void clickNintendo() {
         nintendo.click();
     }
 
+    @Step("Pobranie liczby elementów w galerii Nintendo")
     public int getNintendoGalleryCount() {
         return nintendoList.size();
     }

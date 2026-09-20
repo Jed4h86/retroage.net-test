@@ -1,5 +1,6 @@
 package pl.testeroprogramownia.pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -27,19 +28,23 @@ public class AccessoriesPage {
         this.actions = new Actions(driver);
     }
 
+    @Step("Przejście do zakładki 'Akcesoria'")
     public void openAkcesoriaTab() {
         waitForElementToBeClickable(driver, akcesoriaTab);
         akcesoriaTab.click();
     }
 
+    @Step("Otwarcie podstrony 'Opisy' w nowej karcie (CTRL + click)")
     public void openOpisy() {
         clickWithCtrl(opisy);
     }
 
+    @Step("Otwarcie podstrony 'Galerie' w nowej karcie (CTRL + click)")
     public void openGalerie() {
         clickWithCtrl(galerie);
     }
 
+    @Step("Kliknięcie w element z przytrzymanym klawiszem CTRL")
     private void clickWithCtrl(WebElement element) {
         waitForElementToBeClickable(driver, element);
         actions.keyDown(Keys.CONTROL)

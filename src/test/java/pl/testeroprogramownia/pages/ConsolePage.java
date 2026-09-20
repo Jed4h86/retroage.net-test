@@ -1,5 +1,6 @@
 package pl.testeroprogramownia.pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -34,6 +35,7 @@ public class ConsolePage {
      * Pobiera wszystkie konsole z listy.
      * @return lista nazw konsol jako String
      */
+    @Step("Pobranie listy wszystkich widocznych konsol")
     public List<String> getAllConsoles() {
         return consoleList.stream()
                 .map(WebElement::getText)
@@ -47,6 +49,7 @@ public class ConsolePage {
      * @param console nazwa konsoli, np. "Nintendo"
      * @return true jeśli znajduje się na liście
      */
+    @Step("Weryfikacja, czy konsola '{console}' znajduje się na liście")
     public boolean isConsolePresented(String console) {
         return getAllConsoles().stream()
                 .anyMatch(name -> name.equalsIgnoreCase(console));
@@ -55,6 +58,7 @@ public class ConsolePage {
     /**
      * Kliknięcie w konsolę Nintendo.
      */
+    @Step("Kliknięcie w konsolę Nintendo")
     public void nintendoConsole() {
         nintendo.click();
     }
@@ -62,6 +66,7 @@ public class ConsolePage {
     /**
      * Zwraca tekst nagłówka / tytułu konsoli Nintendo.
      */
+    @Step("Pobranie nazwy nagłówka konsoli Nintendo")
     public String nintendoName() {
         return nintendoText.getText().trim();
     }

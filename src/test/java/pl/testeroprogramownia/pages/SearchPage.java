@@ -1,5 +1,6 @@
 package pl.testeroprogramownia.pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -21,6 +22,7 @@ public class SearchPage {
     /**
      * Zwraca tekst nagłówka wyników wyszukiwania.
      */
+    @Step("Pobranie tekstu nagłówka wyników wyszukiwania")
     public String getSearchResultText() {
         SeleniumHelper.waitForElementToBeVisible(driver, searchResult);
         return searchResult.getText().trim();
@@ -29,6 +31,7 @@ public class SearchPage {
     /**
      * Sprawdza, czy wyniki wyszukiwania zawierają określony tekst.
      */
+    @Step("Weryfikacja, czy nagłówek wyników wyszukiwania zawiera frazę: '{text}'")
     public boolean isSearchResultContains(String text) {
         return getSearchResultText().contains(text);
     }

@@ -1,5 +1,6 @@
 package pl.testeroprogramownia.pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -26,6 +27,7 @@ public class PiggyBankPage {
      * Zwraca wszystkie loginy jako listę Stringów.
      * Selenium zamienia <br> na \n, więc rozdzielamy tekst po \n.
      */
+    @Step("Pobranie pełnej listy loginów wspierających z podstrony Skarbonka")
     public List<String> getAllLogins() {
         String allText = donatorsStrong.getText();
         return Arrays.stream(allText.split("\\n"))
@@ -37,6 +39,7 @@ public class PiggyBankPage {
     /**
      * Sprawdza obecność loginu - klasyczna pętla for
      */
+    @Step("Weryfikacja obecności loginu '{login}' (metoda: pętla for)")
     public boolean isLoginPresentForLoop(String login) {
         for (String l : getAllLogins()) {
             if (l.equalsIgnoreCase(login)) {
@@ -49,6 +52,7 @@ public class PiggyBankPage {
     /**
      * Sprawdza obecność loginu - Stream + Lambda
      */
+    @Step("Weryfikacja obecności loginu '{login}' (metoda: Stream API)")
     public boolean isLoginPresentStream(String login) {
         return getAllLogins().stream()
                 .anyMatch(l -> l.equalsIgnoreCase(login));
@@ -57,6 +61,7 @@ public class PiggyBankPage {
     /**
      * Zwraca liczbę wszystkich donatorów
      */
+    @Step("Pobranie łącznej liczby donatorów")
     public int getDonatorsCount() {
         return getAllLogins().size();
     }
@@ -64,6 +69,7 @@ public class PiggyBankPage {
     /**
      * Sprawdza obecność wielu loginów naraz
      */
+    @Step("Weryfikacja obecności listy loginów: {logins}")
     public boolean areAllLoginsPresent(List<String> logins) {
         List<String> allLogins = getAllLogins();
         return logins.stream()
